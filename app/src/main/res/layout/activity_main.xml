@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:id="@+id/FRAMELAYOUT"
     >
-
-    <ImageView
+  <!--  <ImageView
         android:layout_width="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="50dp"
         android:layout_height="100dp"
         android:src="@drawable/festembertemp"
-/>
+/>-->
 
-    <RelativeLayout
+<!--    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/darkLayout"
         >
 
-</RelativeLayout>
+</RelativeLayout>-->
 </FrameLayout>

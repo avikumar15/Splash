@@ -2,6 +2,7 @@ package com.example.playingwithcanvas3;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -19,17 +21,60 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     CanvasClass canvasClass;
-    RelativeLayout relativeLayout;
+    TheatreSetup theatreSetup;
+    FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        relativeLayout = (RelativeLayout) findViewById(R.id.darkLayout);
+        frameLayout = (FrameLayout) findViewById(R.id.FRAMELAYOUT);
         canvasClass = new CanvasClass(this);
-        relativeLayout.addView(canvasClass);
+        theatreSetup = new TheatreSetup(this);
+        frameLayout.addView(theatreSetup);
+       frameLayout.addView(canvasClass);
 
+    }
+
+    public class TheatreSetup extends View
+    {
+        Bitmap logo;
+        Bitmap logoResize;
+        Bitmap curtain;
+        Bitmap curtainResize;
+        Bitmap chair;
+        Bitmap chairResize;
+        Paint Black;
+
+
+        public TheatreSetup(Context context) {
+            super(context);
+
+            Black = new Paint();
+            Black.setColor(Color.BLACK);
+
+            logo = BitmapFactory.decodeResource(getResources(),R.drawable.festembertemp);
+            curtain = BitmapFactory.decodeResource(getResources(),R.drawable.curt2);
+            chair = BitmapFactory.decodeResource(getResources(),R.drawable.aud6);
+
+        }
+
+        public void onDraw(Canvas canvas)
+        {
+            super.onDraw(canvas);
+
+            canvas.drawRect(0,getHeight()/2f,getWidth(),getHeight(),Black);
+
+            logoResize = Bitmap.createScaledBitmap(logo,(int)(getWidth()/1.6),getHeight()/17,true);
+            canvas.drawBitmap(logoResize,getWidth()/2f-getWidth()/3.2f,getHeight()/4f-getHeight()/34f,null);
+
+            curtainResize = Bitmap.createScaledBitmap(curtain,(int)(getWidth()*1.5),(int)(getHeight()/1.7),true);
+            canvas.drawBitmap(curtainResize,(int)(-1*getWidth()*0.25),-2,null);
+
+            chairResize = Bitmap.createScaledBitmap(chair,(int)(getWidth()*2.5),(int)(getHeight()),true);
+            canvas.drawBitmap(chairResize,-1*getWidth()*0.1f,0,null);
+        }
     }
 
     public class CanvasClass extends View
@@ -86,31 +131,8 @@ public class MainActivity extends AppCompatActivity {
             screen.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
 
             temp.drawRect(0,0,getWidth(),getHeight(),paint);
-            trans.setColor(Color.parseColor("#80FFFF33"));
+            trans.setColor(Color.parseColor("#00FFFFFF"));
             screen.setColor(Color.TRANSPARENT);
-/*
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(r<= 20*getResources().getDisplayMetrics().density)
-                        r *= 1.5;*/
-/*
-                    else
-                    {
-                        x+=3;
-                        *//*
-*/
-/*random = new Random().nextInt(100);
-                        y=(int)(random*getResources().getDisplayMetrics().density);*//*
-*/
-/*
-                        y=(float) (25*getResources().getDisplayMetrics().density*Math.sin(x/40));
-                    }*//*
-
-                }
-            }, 700);
-*/
 
             TIME+=3;
 
@@ -124,11 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(TIME>=500) {
                     x = getWidth() / 9f;
-                 /*   random = new Random().nextInt(3);
-                    y = (int)(random*getResources().getDisplayMetrics().density);
-                    random2 = new Random().nextInt(3);
-                    z = (int)(random2*getResources().getDisplayMetrics().density);
-*/
                     if (TIME >= 700)
                     {
                         x = 2 * getWidth() / 9f;
@@ -152,25 +169,14 @@ public class MainActivity extends AppCompatActivity {
                                         {
                                             x=getWidth()/2f-80*getResources().getDisplayMetrics().density;
                                             y=getHeight()/4f-100*getResources().getDisplayMetrics().density;
-                                         //   r=5*getResources().getDisplayMetrics().density*-1;
                                             r=getHeight()/4f-10*getResources().getDisplayMetrics().density;
 
                                             if(TIME>=1800)
                                             {
-                                               // r=5*getResources().getDisplayMetrics().density*-1;
-                                                temp.drawRect(0,0,getWidth(),getHeight()/2f,screen);
+                                                r=getHeight()*2;
                                             }
                                         }
 
-                                        /*if(TIME>=1700)
-                                        {
-                                            x=7*getWidth()/9f;
-
-                                            if(TIME>=1900)
-                                            {
-                                                x=8*getWidth()/9f;
-                                            }
-                                        }*/
                                     }
                                 }
                             }
@@ -180,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             }
             invalidate();
 
-            temp.drawCircle(80*getResources().getDisplayMetrics().density+x+z,y+100*getResources().getDisplayMetrics().density,5*getResources().getDisplayMetrics().density+r,trans);
+            temp.drawCircle(getWidth()/2f-getWidth()/3.2f+x+z,y+getHeight()/4f,10+3*r/getResources().getDisplayMetrics().density,trans);
 
         }
     }
