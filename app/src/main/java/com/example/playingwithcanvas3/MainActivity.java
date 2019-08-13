@@ -3,11 +3,15 @@ package com.example.playingwithcanvas3;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         int TIME;
         final Handler handler;
         int random,random2;
+        float[] stopsGradient;
+        int[] colorsGradient;
 
         public CanvasClass(Context context) {
             super(context);
@@ -131,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
             screen.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
 
             temp.drawRect(0,0,getWidth(),getHeight(),paint);
-            trans.setColor(Color.parseColor("#00FFFFFF"));
+        //    trans.setColor(Color.parseColor("#10FF0000"));
+
             screen.setColor(Color.TRANSPARENT);
 
             TIME+=3;
@@ -144,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     invalidate();
                 }
 
-                if(TIME>=500) {
+               /* if(TIME>=500) {
                     x = getWidth() / 9f;
                     if (TIME >= 700)
                     {
@@ -182,9 +189,24 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                }
+                }*/
             }
             invalidate();
+
+            stopsGradient = new float[] { 0, 0.85f, 0.95f,1 };
+            colorsGradient  = new int[] { Color.parseColor("#00FFFFFF"),Color.parseColor("#88FFFFFF"), Color.parseColor("#88FFFFFF"),Color.parseColor("#FFFFFF")};
+
+            trans.setShader(new RadialGradient(
+                    getWidth()/2f-getWidth()/3.2f+x+z,
+                    y+getHeight()/4f,
+                    10+3*r/getResources().getDisplayMetrics().density,
+                    colorsGradient,
+                    stopsGradient,
+                    Shader.TileMode.CLAMP
+            ));
+        //    trans.setMaskFilter(new BlurMaskFilter(10+3*r/getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.SOLID)); time lag
+            trans.setDither(true);
+            trans.setAntiAlias(true);
 
             temp.drawCircle(getWidth()/2f-getWidth()/3.2f+x+z,y+getHeight()/4f,10+3*r/getResources().getDisplayMetrics().density,trans);
 
