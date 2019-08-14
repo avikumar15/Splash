@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         canvasClass = new CanvasClass(this);
         theatreSetup = new TheatreSetup(this);
         frameLayout.addView(theatreSetup);
-       frameLayout.addView(canvasClass);
+        frameLayout.addView(canvasClass);
 
     }
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap chair;
         Bitmap chairResize;
         Paint Black;
+        Paint screen;
 
 
         public TheatreSetup(Context context) {
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
             Black = new Paint();
             Black.setColor(Color.BLACK);
+            screen = new Paint();
+            screen.setColor(Color.WHITE);
 
             logo = BitmapFactory.decodeResource(getResources(),R.drawable.festembertemp);
             curtain = BitmapFactory.decodeResource(getResources(),R.drawable.curt2);
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         {
             super.onDraw(canvas);
 
+          //  canvas.drawRect(0,0,getWidth(),getHeight()/2.5f,screen);
             canvas.drawRect(0,getHeight()/2f,getWidth(),getHeight(),Black);
 
             logoResize = Bitmap.createScaledBitmap(logo,(int)(getWidth()/1.6),getHeight()/17,true);
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             screen.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
 
             temp.drawRect(0,0,getWidth(),getHeight(),paint);
-        //    trans.setColor(Color.parseColor("#10FF0000"));
+            trans.setColor(Color.parseColor("#80FF0000"));
             screen.setColor(Color.TRANSPARENT);
                 if(r<= 40*getResources().getDisplayMetrics().density)
                 {
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     if(cy<getHeight()/2){
                         cy+=5;
                         cx-=5*(getWidth()/3.2f)/(getHeight()/4f-y-100*(float)Math.sin((getWidth()/2f+getHeight()/3.2f)/50));
-                    r+=5;}
+                    r+=50;}
                     else
                     state=3;}
                 }
@@ -168,65 +172,26 @@ public class MainActivity extends AppCompatActivity {
                             state=3;
                     cy+=5;
                     cx-=5*(getWidth()/3.2f)/(getHeight()/4f-y-100*(float)Math.sin((getWidth()/2f+getHeight()/3.2f)/50));
-                    r+=5;}
+                    r+=50;}
 
                 }
                 if(state==3)
-                    r+=10;
+                    r+=50;
 
-               /* if(TIME>=500) {
-                    x = getWidth() / 9f;
-                    if (TIME >= 700)
-                    {
-                        x = 2 * getWidth() / 9f;
-                        if(TIME >= 900)
-                        {
-                            x=3*getWidth()/9f;
-
-                            if(TIME>=1100)
-                            {
-                                x=4*getWidth()/9f;
-
-                                if(TIME>=1300)
-                                {
-                                    x=5*getWidth()/9f;
-
-                                    if(TIME>=1500)
-                                    {
-                                        x=6*getWidth()/9f;
-
-                                        if(TIME>=1700)
-                                        {
-                                            x=getWidth()/2f-80*getResources().getDisplayMetrics().density;
-                                            y=getHeight()/4f-100*getResources().getDisplayMetrics().density;
-                                            r=getHeight()/4f-10*getResources().getDisplayMetrics().density;
-
-                                            if(TIME>=1800)
-                                            {
-                                                r=getHeight()*2;
-                                            }
-                                        }
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }*/
             invalidate();
 
-            stopsGradient = new float[] { 0, 0.85f, 0.95f,1 };
-            colorsGradient  = new int[] { Color.parseColor("#00FFFFFF"),Color.parseColor("#88FFFFFF"), Color.parseColor("#88FFFFFF"),Color.parseColor("#88FFFFFF")};
+            stopsGradient = new float[] { 0, 0.85f, 1 };
+            colorsGradient  = new int[] { Color.parseColor("#00FFFFFF"),Color.parseColor("#88FFFFFF"), Color.parseColor("#88FFFFFF")};
 
             trans.setShader(new RadialGradient(
-                    getWidth()/2f-getWidth()/3.2f+x+z,
-                    y+getHeight()/4f,
-                    10+10*r/getResources().getDisplayMetrics().density,
+                    cx,
+                    cy,
+                    10+3*r/getResources().getDisplayMetrics().density,
                     colorsGradient,
                     stopsGradient,
                     Shader.TileMode.CLAMP
             ));
-        trans.setMaskFilter(new BlurMaskFilter(10+3*r/getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.SOLID));
+     //   trans.setMaskFilter(new BlurMaskFilter(10+3*r/getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.SOLID));
             trans.setDither(true);
             trans.setAntiAlias(true);
 
