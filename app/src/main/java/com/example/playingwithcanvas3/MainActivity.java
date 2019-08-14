@@ -45,24 +45,30 @@ public class MainActivity extends AppCompatActivity {
     {
         Bitmap logo;
         Bitmap logoResize;
-        Bitmap curtain;
-        Bitmap curtainResize;
+//        Bitmap curtain;
+//        Bitmap curtainResize;
         Bitmap chair;
         Bitmap chairResize;
         Paint Black;
+        Paint screenBack;
         Paint screen;
+        float[] stopsGradient;
+        int[] colorsGradient;
 
 
         public TheatreSetup(Context context) {
             super(context);
 
             Black = new Paint();
-            Black.setColor(Color.BLACK);
+            Black.setColor(Color.parseColor("#171414"));
             screen = new Paint();
             screen.setColor(Color.WHITE);
+            screenBack=new Paint();
+            screenBack.setColor(Color.parseColor("#000000"));
+
 
             logo = BitmapFactory.decodeResource(getResources(),R.drawable.festembertemp);
-            curtain = BitmapFactory.decodeResource(getResources(),R.drawable.curt2);
+          //  curtain = BitmapFactory.decodeResource(getResources(),R.drawable.curt2);
             chair = BitmapFactory.decodeResource(getResources(),R.drawable.aud6);
 
         }
@@ -71,16 +77,21 @@ public class MainActivity extends AppCompatActivity {
         {
             super.onDraw(canvas);
 
-          //  canvas.drawRect(0,0,getWidth(),getHeight()/2.5f,screen);
-            canvas.drawRect(0,getHeight()/2f,getWidth(),getHeight(),Black);
 
-            logoResize = Bitmap.createScaledBitmap(logo,(int)(getWidth()/1.6),getHeight()/17,true);
-            canvas.drawBitmap(logoResize,getWidth()/2f-getWidth()/3.2f,getHeight()/4f-getHeight()/34f,null);
+            screen.setShader(new RadialGradient(getWidth()/2,getHeight()/4,getWidth()/3.2f+getWidth()/9f+75,Color.parseColor("#FFFFFF"),Color.parseColor("#979797"), Shader.TileMode.CLAMP));
 
-            curtainResize = Bitmap.createScaledBitmap(curtain,(int)(getWidth()*1.5),(int)(getHeight()/1.7),true);
-            canvas.drawBitmap(curtainResize,(int)(-1*getWidth()*0.25),-2,null);
+            canvas.drawRect(0,0,getWidth(),getHeight(),Black);
+            canvas.drawRect(getWidth()/2f-getWidth()/3.2f-getWidth()/9f-50,getHeight()/9f-50,getWidth()/2f+getWidth()/3.2f+getWidth()/9f+50,getHeight()/2f-getHeight()/9f+150,screenBack);
+            canvas.drawRect(getWidth()/2f-getWidth()/3.2f-getWidth()/9f,getHeight()/9f,getWidth()/2f+getWidth()/3.2f+getWidth()/9f,getHeight()/2f-getHeight()/9f,screen);
 
-            chairResize = Bitmap.createScaledBitmap(chair,(int)(getWidth()*2.5),(int)(getHeight()),true);
+            logoResize = Bitmap.createScaledBitmap(logo,(int)(getWidth()/1.6),getHeight()/13,true);
+            canvas.drawBitmap(logoResize,getWidth()/2f-getWidth()/3.2f,getHeight()/4f-getHeight()/26f,null);
+
+         //   curtainResize = Bitmap.createScaledBitmap(curtain,(int)(getWidth()*1.5),(int)(getHeight()/1.7),true);
+         //   canvas.drawBitmap(curtainResize,(int)(-1*getWidth()*0.25),-2,null);
+
+         //   chairResize = Bitmap.createScaledBitmap(chair,(int)(getWidth()*2.5),(int)(getHeight()),true);
+            chairResize = Bitmap.createScaledBitmap(chair,(int)(getWidth()*1.3),(int)(getHeight()),true);
             canvas.drawBitmap(chairResize,-1*getWidth()*0.1f,0,null);
         }
     }
@@ -141,15 +152,16 @@ public class MainActivity extends AppCompatActivity {
             screen.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
 
             temp.drawRect(0,0,getWidth(),getHeight(),paint);
-            trans.setColor(Color.parseColor("#80FF0000"));
+         //   trans.setColor(Color.parseColor("#80FF0000"));
             screen.setColor(Color.TRANSPARENT);
-                if(r<= 40*getResources().getDisplayMetrics().density)
+
+            if (r<= 40*getResources().getDisplayMetrics().density)
                 {
                     cx=getWidth()/2f-getWidth()/3.2f+x+z;
                     cy=y+getHeight()/4f;
-                    r += 1;
+                    r += 5;
                 }
-                else if(cx<getWidth()/2f+getWidth()/3.2f){
+               else if(cx<getWidth()/2f+getWidth()/3.2f){
                     if(state==0)
                         state++;
                     if(state==1){
@@ -159,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
                     if(cy<getHeight()/2){
                         cy+=5;
                         cx-=5*(getWidth()/3.2f)/(getHeight()/4f-y-100*(float)Math.sin((getWidth()/2f+getHeight()/3.2f)/50));
-                    r+=50;}
+                    r+=50;
+                    }
                     else
                     state=3;}
                 }
@@ -172,16 +185,19 @@ public class MainActivity extends AppCompatActivity {
                             state=3;
                     cy+=5;
                     cx-=5*(getWidth()/3.2f)/(getHeight()/4f-y-100*(float)Math.sin((getWidth()/2f+getHeight()/3.2f)/50));
-                    r+=50;}
+                    r+=50;
+                    }
 
                 }
                 if(state==3)
+                {
                     r+=50;
+                }
 
             invalidate();
 
-            stopsGradient = new float[] { 0, 0.85f, 1 };
-            colorsGradient  = new int[] { Color.parseColor("#00FFFFFF"),Color.parseColor("#88FFFFFF"), Color.parseColor("#88FFFFFF")};
+            stopsGradient = new float[] { 0, 0.9f, 1, 1};
+            colorsGradient  = new int[] { Color.parseColor("#10FFFFFF"),Color.parseColor("#10FFFFFF"), Color.parseColor("#BBFFFFFF"), Color.parseColor("#00FFFFFF")};
 
             trans.setShader(new RadialGradient(
                     cx,
