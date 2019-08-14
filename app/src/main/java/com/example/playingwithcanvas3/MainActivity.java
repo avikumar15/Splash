@@ -140,14 +140,9 @@ public class MainActivity extends AppCompatActivity {
         //    trans.setColor(Color.parseColor("#10FF0000"));
 
             screen.setColor(Color.TRANSPARENT);
-
-            TIME+=3;
-
-            if(TIME>=300)
-            {
-                while(r<= 30*getResources().getDisplayMetrics().density)
+                if(r<= 50*getResources().getDisplayMetrics().density)
                 {
-                    r *= 1.5;
+                    r += 1.5;
                     invalidate();
                 }
 
@@ -190,11 +185,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }*/
-            }
             invalidate();
 
             stopsGradient = new float[] { 0, 0.85f, 0.95f,1 };
-            colorsGradient  = new int[] { Color.parseColor("#00FFFFFF"),Color.parseColor("#88FFFFFF"), Color.parseColor("#88FFFFFF"),Color.parseColor("#FFFFFF")};
+            colorsGradient  = new int[] { Color.parseColor("#00FFFFFF"),Color.parseColor("#88FFFFFF"), Color.parseColor("#88FFFFFF"),Color.parseColor("#88FFFFFF")};
 
             trans.setShader(new RadialGradient(
                     getWidth()/2f-getWidth()/3.2f+x+z,
@@ -204,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     stopsGradient,
                     Shader.TileMode.CLAMP
             ));
-        //    trans.setMaskFilter(new BlurMaskFilter(10+3*r/getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.SOLID)); time lag
+        trans.setMaskFilter(new BlurMaskFilter(10+3*r/getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.SOLID));
             trans.setDither(true);
             trans.setAntiAlias(true);
 
