@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int t;
+        float slope;
+        int flag=1;
 
         public void MakeCover() {
 
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 cx = getWidth() / 2f - getWidth() / 3.2f + x + z;
                 cy = y + getHeight() / 4f;
                 t++;
-            } else if (r <= 30 * getResources().getDisplayMetrics().density) {
+            } else if (r <= 30 * getResources().getDisplayMetrics().density && flag==1) {
                 cx = getWidth() / 2f - getWidth() / 3.2f + x + z;
                 cy = y + getHeight() / 4f;
                 r += 5;
@@ -171,26 +173,30 @@ public class MainActivity extends AppCompatActivity {
                     cy = y + getHeight() / 4f + 100 * (float) Math.sin(cx / 50);
                 }
                 if (state == 2) {
-                    if (cy < getHeight() / 2) {
-                        cy += 5;
-                        cx -= 5 * (getWidth() / 3.2f) / (getHeight() / 4f - y - 100 * (float) Math.sin((getWidth() / 2f + getHeight() / 3.2f) / 50));
-                        r += 2;
+                    if (cy < getHeight() / 4f) {
+                        slope = (cy-getHeight()/4f)/(cx-getWidth()/2f);
+                        cx-=8;
+                        cy-=slope*8;
+                        flag=0;
                     } else
+                    {
                         state = 3;
+                    }
                 }
-            } else if (cy < getHeight() / 2) {
+            } else if (cy < getHeight() / 4f) {
                 if (state == 1)
                     state++;
                 if (state == 2) {
-                    if (cy >= getHeight() / 2)
-                        state = 3;
-                    cy += 5;
-                    cx -= 5 * (getWidth() / 3.2f) / (getHeight() / 4f - y - 100 * (float) Math.sin((getWidth() / 2f + getHeight() / 3.2f) / 50));
-                    r += 2;
+                    slope = (cy-getHeight()/4f)/(cx-getWidth()/2f);
+                    cx-=8;
+                    cy-=slope*8;
+                        flag=0;
                 }
 
             }
             if (state == 3) {
+                System.out.println("Time is "+t);
+                t++;
                 r += 30;
             }
 
