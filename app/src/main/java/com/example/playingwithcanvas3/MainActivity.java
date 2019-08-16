@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
 
             invalidate();
 
-            stopsGradient = new float[]{0, 0.9f, 1};
-            colorsGradient = new int[]{Color.parseColor("#00FFFFFF"), Color.parseColor("#58000000"), Color.parseColor("#88000000")};
+            stopsGradient = new float[]{0, 0.8f, 1};
+            colorsGradient = new int[]{Color.parseColor("#00FFFFFF"), Color.parseColor("#10FFFFFF"), Color.parseColor("#15FFFFFF")};
             if (state != 3)
                 trans.setShader(new RadialGradient(
                         cx,
@@ -205,14 +205,14 @@ public class MainActivity extends AppCompatActivity {
                         10 + 3 * r / getResources().getDisplayMetrics().density,
                         colorsGradient,
                         stopsGradient,
-                        Shader.TileMode.CLAMP
+                        Shader.TileMode.REPEAT
                 ));
             else {
                 trans.setShader(null);
                 trans.setColor(Color.TRANSPARENT);
             }
             if (state != 3 && state != 2)
-                trans.setMaskFilter(new BlurMaskFilter(10 + 3 * r / getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.INNER));
+                trans.setMaskFilter(new BlurMaskFilter(10 + 1 * r / getResources().getDisplayMetrics().density, BlurMaskFilter.Blur.INNER));
             else {
                 trans.setMaskFilter(null);
             }
